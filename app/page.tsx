@@ -198,6 +198,7 @@ export default function EcommerceDashboard() {
 
   // Import Lottie animation data  
   const [upArrowAnimation, setUpArrowAnimation] = useState(null)
+  const [piggyBankAnimation, setPiggyBankAnimation] = useState(null)
 
   useEffect(() => {
     // Load the up arrow animation
@@ -205,6 +206,14 @@ export default function EcommerceDashboard() {
       .then(response => response.json())
       .then(data => setUpArrowAnimation(data))
       .catch(error => console.error('Error loading up arrow animation:', error))
+  }, [])
+
+  useEffect(() => {
+    // Load the piggy bank animation
+    fetch('/lottie/Piggy Bank - Coin In.json')
+      .then(response => response.json())
+      .then(data => setPiggyBankAnimation(data))
+      .catch(error => console.error('Error loading piggy bank animation:', error))
   }, [])
 
 
@@ -499,10 +508,26 @@ export default function EcommerceDashboard() {
                         </div>
                       )}
                       {kpi.label === "Profit" && (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <svg className="w-12 h-12 text-green-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 7.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H12v1h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5H12v-1h-1.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5z"/>
-                          </svg>
+                        <div className="w-full h-full flex items-center justify-center relative z-[60] overflow-visible">
+                          {piggyBankAnimation ? (
+                            <div className="w-full h-full mt-10 relative z-[70] overflow-visible flex items-center justify-center">
+                              <Lottie
+                                animationData={piggyBankAnimation}
+                                loop={true}
+                                autoplay={true}
+                                style={{ 
+                                  width: '100%', 
+                                  height: '100%',
+                                  transform: 'scale(2.2)',
+                                  transformOrigin: 'center center'
+                                }}
+                              />
+                            </div>
+                          ) : (
+                            <svg className="w-12 h-12 text-green-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 7.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5H12v1h1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5H12v-1h-1.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5z"/>
+                            </svg>
+                          )}
                         </div>
                       )}
                       {kpi.label === "Target Remaining" && (
